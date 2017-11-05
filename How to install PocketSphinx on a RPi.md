@@ -28,35 +28,36 @@ You can find the downloads here: http://cmusphinx.sourceforge.net/wiki/download.
     sudo apt-get upgrade
     cat /proc/asound/cards
 
-* check your microphone is visible or not and if on which usb extension
+check your microphone is visible or not and if on which usb extension
 
-        sudo nano /etc/modprobe.d/alsa-base.conf
-        Now change this
-        Keep snd-usb-audio from being loaded as first soundsudcard
-        To options snd-usb-audio index=0
+    sudo nano /etc/modprobe.d/alsa-base.conf
+    Now change this
+    Keep snd-usb-audio from being loaded as first soundsudcard
+    To options snd-usb-audio index=0
 
-* if there is some other options snd-usb-audio index=1, comment it out
+if there is some other options snd-usb-audio index=1, comment it out
 
-        sudo reboot
-        cat /proc/asound/cards
-* check your device is at 0
+    sudo reboot
+    cat /proc/asound/cards
 
-        sudo apt-get install bison
-        sudo apt-get install libasound2-dev
+check your device is at 0
 
-* download sphinxbase latest, extract
+    sudo apt-get install bison
+    sudo apt-get install libasound2-dev
 
-        ./configure --enable-fixed
-        make
-        sudo make install
+download sphinxbase latest, extract
 
-* download pocketsphinx, extract
+    ./configure --enable-fixed
+    make
+    sudo make install
 
-        ./configure
-        make
-        sudo make install
-        export LD_LIBRARY_PATH=/usr/local/lib
-        export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
+download pocketsphinx, extract
+
+    ./configure
+    make
+    sudo make install
+    export LD_LIBRARY_PATH=/usr/local/lib
+    export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
 
 ## Run it, should work
 

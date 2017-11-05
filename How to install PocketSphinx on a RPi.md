@@ -1,11 +1,11 @@
 
 # How to install PocketSphinx on a RPi
-## by [tyler]
+###### by [tyler]
 ## Download the latest version of sphinxbase and pocketsphinx
-* You can find the downloads here: http://cmusphinx.sourceforge.net/wiki/download.
+You can find the downloads here: http://cmusphinx.sourceforge.net/wiki/download.
 
-        wget https://sourceforge.net/projects/cmusphinx/files/sphinxbase/5prealpha/sphinxbase-5prealpha.tar.gz/download -O sphinxbase.tar.gz
-        wget https://sourceforge.net/projects/cmusphinx/files/pocketsphinx/5prealpha/pocketsphinx-5prealpha.tar.gz/download -O pocketsphinx.tar.gz
+    wget https://sourceforge.net/projects/cmusphinx/files/sphinxbase/5prealpha/sphinxbase-5prealpha.tar.gz/download -O sphinxbase.tar.gz
+    wget https://sourceforge.net/projects/cmusphinx/files/pocketsphinx/5prealpha/pocketsphinx-5prealpha.tar.gz/download -O pocketsphinx.tar.gz
     
 ## Extract the files into separate directories
 

@@ -13,7 +13,8 @@ Now change this
 To
 
     Keep snd-usb-audio from being loaded as first soundcard 
-    options snd-usb-audio index=0
+    options snd-usb-audio index=0
+
 
 > 20171105：修改为0以后可以用PocketSphinx。
 

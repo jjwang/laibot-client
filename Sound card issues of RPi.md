@@ -2,5 +2,5 @@
 
 * 怎么查看树莓派的声卡
 
-    cat /proc/asound/cards
+        cat /proc/asound/cards
         

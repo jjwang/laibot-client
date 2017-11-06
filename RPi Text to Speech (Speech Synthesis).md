@@ -1,8 +1,9 @@
 # RPi Text to Speech (Speech Synthesis)
+
 This guide shows you three easy methods of getting your Raspberry Pi to talk, and describes the pros and cons of each.
----
+
 URL: https://elinux.org/RPi_Text_to_Speech_(Speech_Synthesis)
----
+
 ## Why use Text to Speech?
 It’s very easy add to your program - just output a string to the speech function instead of the screen. You don’t need an expensive/complicated LCD or monitor for your project - just use any old mp3 player loudspeaker or PC loudspeaker which you have probably got lying around - or even an earphone works well for debugging purposes too.
 

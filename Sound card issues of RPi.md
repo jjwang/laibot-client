@@ -1,4 +1,4 @@
-# Sound card issues of RPi（树莓派声卡问题大全）
+# 树莓派声卡问题大全
 
 
 ## How to record and play on Linux devices?

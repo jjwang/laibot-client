@@ -1,12 +1,12 @@
 # 树莓派声卡问题大全
 
 
-## How to record and play on Linux devices?
+## 1. How to record and play on Linux devices?
 
     arecord -r 16000 -f S16_LE -t wav -d 3 temp.wav
     aplay temp.wav
 
-## PocketSphinx 的树莓派声卡问题
+## 2. PocketSphinx 的树莓派声卡问题
 
     cat /proc/asound/cards
 check your microphone is visible or not and if on which usb extension

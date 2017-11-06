@@ -6,7 +6,7 @@
     arecord -r 16000 -f S16_LE -t wav -d 3 temp.wav
     aplay temp.wav
 
-## 2. PocketSphinx 的树莓派声卡问题
+## 2. 为 PocketSphinx 设置树莓派声卡
 
     cat /proc/asound/cards
 check your microphone is visible or not and if on which usb extension

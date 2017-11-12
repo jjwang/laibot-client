@@ -1,6 +1,9 @@
-# 来宝：开源人工智能
+来宝：开源人工智能
+=================
 
-#### 开发指南
+[![Build Status](https://travis-ci.org/jjwang/laibot.svg?branch=master)](https://travis-ci.org/jjwang/laibot)
+
+## 开发指南
 
 - 确保通过单元测试。
 

@@ -1,5 +1,5 @@
 # 来宝：开源人工智能
-# laibot: an open source artificial intelligence
+laibot: an open source artificial intelligence
 ---
 #### 开发指南
 

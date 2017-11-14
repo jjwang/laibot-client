@@ -1,0 +1,70 @@
+Language model created by QuickLM on Sat Nov 11 04:08:07 EST 2017
+Copyright (c) 1996-2010 Carnegie Mellon University and Alexander I. Rudnicky
+
+The model is in standard ARPA format, designed by Doug Paul while he was at MITRE.
+
+The code that was used to produce this language model is available in Open Source.
+Please visit http://www.speech.cs.cmu.edu/tools/ for more information
+
+The (fixed) discount mass is 0.5. The backoffs are computed using the ratio method.
+This model based on a corpus of 11 sentences and 13 words
+
+\data\
+ngram 1=13
+ngram 2=22
+ngram 3=11
+
+\1-grams:
+-1.8195 </s> -0.3010
+-1.8195 <s> -0.2218
+-1.8195 BE -0.2218
+-1.8195 DID -0.2218
+-1.8195 FIRST -0.2218
+-1.8195 IN -0.2218
+-1.8195 JASPER -0.2218
+-1.8195 NOW -0.2218
+-0.7782 OKEY -0.2218
+-1.8195 RIGHT -0.2218
+-1.8195 SAY -0.2218
+-0.7782 TOMMY -0.2218
+-1.8195 WHAT -0.2218
+
+\2-grams:
+-1.3424 <s> BE 0.0000
+-1.3424 <s> DID 0.0000
+-1.3424 <s> FIRST 0.0000
+-1.3424 <s> IN 0.0000
+-1.3424 <s> JASPER 0.0000
+-1.3424 <s> NOW 0.0000
+-1.3424 <s> OKEY 0.0000
+-1.3424 <s> RIGHT 0.0000
+-1.3424 <s> SAY 0.0000
+-1.3424 <s> TOMMY 0.0000
+-1.3424 <s> WHAT 0.0000
+-0.3010 BE </s> -0.3010
+-0.3010 DID </s> -0.3010
+-0.3010 FIRST </s> -0.3010
+-0.3010 IN </s> -0.3010
+-0.3010 JASPER </s> -0.3010
+-0.3010 NOW </s> -0.3010
+-0.3010 OKEY </s> -0.3010
+-0.3010 RIGHT </s> -0.3010
+-0.3010 SAY </s> -0.3010
+-0.3010 TOMMY </s> -0.3010
+-0.3010 WHAT </s> -0.3010
+
+\3-grams:
+-0.3010 <s> BE </s>
+-0.3010 <s> DID </s>
+-0.3010 <s> FIRST </s>
+-0.3010 <s> IN </s>
+-0.3010 <s> JASPER </s>
+-0.3010 <s> NOW </s>
+-0.3010 <s> OKEY </s>
+-0.3010 <s> RIGHT </s>
+-0.3010 <s> SAY </s>
+-0.3010 <s> TOMMY </s>
+-0.3010 <s> WHAT </s>
+
+\end\
+

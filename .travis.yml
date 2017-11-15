@@ -1,5 +1,5 @@
 env:
-    - ARCH=ARM
+    - ARCH=x86
 language: python
 sudo: true
 python:

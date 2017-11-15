@@ -49,6 +49,7 @@ class TestSTT(unittest.TestCase):
         """
         Does Jasper recognize '今天的天气' (i.e., active listen)?
         """
+        pass
         with open(self.weather_zh_clip, mode="rb") as f:
             transcription = self.active_stt_engine.transcribe(f)
         self.assertIn("今天的天气", transcription[0][0:15])

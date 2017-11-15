@@ -1,0 +1,12 @@
+pytz==2017.3
+mock==2.0.0
+cmuclmtk==0.1.5
+feedparser==5.2.1
+requests==2.4.3
+pip==1.5.6
+PocketSphinx==0.8
+gtts==1.2.2
+mad==0.2.2
+pyaudio==0.2.11
+pyvona==1.2.1
+PyYAML==3.12

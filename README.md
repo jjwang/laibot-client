@@ -1,7 +1,7 @@
 来宝：开源人工智能
 =================
 
-[![Build Status](https://travis-ci.org/jjwang/laibot.svg?branch=master)](https://travis-ci.org/jjwang/laibot) [![Coverage Status](https://img.shields.io/coveralls/jjwang/laibot.svg)](https://coveralls.io/r/jjwang/laibot)
+[![Build Status](https://travis-ci.org/jjwang/laibot.svg?branch=master)](https://travis-ci.org/jjwang/laibot)
 
 ## 这码农咋想的？
 

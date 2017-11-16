@@ -3,6 +3,13 @@
 
 [![Build Status](https://travis-ci.org/jjwang/laibot.svg?branch=master)](https://travis-ci.org/jjwang/laibot)
 
+## 目录
+
+- [这码农咋想的？](#这码农咋想的？)
+- [先选定硬件](#先选定硬件)
+- [再敲定软件](#再敲定软件)
+- [项目的规矩](#项目的规矩)
+
 ## 这码农咋想的？
 
 来宝项目的由来是因为2017年智能音箱太火了！当我在看基于淘宝可购买的硬件电路板以及免费语音服务如何构建智能音箱时，我找到了[japser-client](https://github.com/jasperproject/jasper-client)和[dingdang-robot](https://github.com/wzpan/dingdang-robot)这两个项目。Jasper完成了一个大概的框架，但是没有集成对应的汉语服务；Dingdang基于Jasper继续演进。不得不说，Dingdang开发的确实非常好，集成了很多的服务、编写了大量的文档，使得一个新手很容易入门。

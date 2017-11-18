@@ -2,7 +2,7 @@
 =================
 
 [![Build Status](https://travis-ci.org/jjwang/laibot.svg?branch=master)](https://travis-ci.org/jjwang/laibot)
-![PicName](http://115.28.128.30/tjbot.png)
+![PicName](http://115.28.128.30/tjbot.jpg)
 ## 目录
 
 - [这码农咋想的？](#这码农咋想的？)

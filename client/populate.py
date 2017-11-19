@@ -93,7 +93,7 @@ def run():
             timezone(tz)
             profile['timezone'] = tz
             break
-        except:
+        except Exception:
             print("Not a valid timezone. Try again.")
             tz = raw_input("Timezone: ")
 
@@ -141,6 +141,7 @@ def run():
     outputFile = open(jasperpath.config("profile.yml"), "w")
     yaml.dump(profile, outputFile, default_flow_style=False)
     print("Done.")
+
 
 if __name__ == "__main__":
     run()

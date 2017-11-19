@@ -16,10 +16,9 @@ import pipes
 import logging
 import wave
 import urllib
-import urlparse
 import requests
 from abc import ABCMeta, abstractmethod
-from uuid import getnode as get_mac # Import for Baidu TTS
+from uuid import getnode as get_mac  # Import for Baidu TTS
 
 import argparse
 import yaml
@@ -473,6 +472,7 @@ class GoogleTTS(AbstractMp3TTSEngine):
         self.play_mp3(tmpfile)
         os.remove(tmpfile)
 
+
 class IvonaTTS(AbstractMp3TTSEngine):
     """
     Uses the Ivona Speech Cloud Services.
@@ -538,6 +538,7 @@ class IvonaTTS(AbstractMp3TTSEngine):
         self._pyvonavoice.fetch_voice(phrase, tmpfile)
         self.play_mp3(tmpfile)
         os.remove(tmpfile)
+
 
 class BaiduTTS(AbstractMp3TTSEngine):
     """
@@ -645,6 +646,7 @@ class BaiduTTS(AbstractMp3TTSEngine):
             self.play_mp3(tmpfile)
             os.remove(tmpfile)
 
+
 def get_default_engine_slug():
     return 'osx-tts' if platform.system().lower() == 'darwin' else 'espeak-tts'
 
@@ -687,6 +689,7 @@ def get_engines():
             list(get_subclasses(AbstractTTSEngine))
             if hasattr(tts_engine, 'SLUG') and tts_engine.SLUG]
 
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Jasper TTS module')
     parser.add_argument('--debug', action='store_true',
@@ -720,4 +723,3 @@ if __name__ == '__main__':
         engine.get_instance().say("This is a test.")
 
     print("Done.")
-

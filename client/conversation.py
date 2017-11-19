@@ -6,6 +6,7 @@ import sys
 reload(sys)
 sys.setdefaultencoding('utf8')
 
+
 class Conversation(object):
 
     def __init__(self, persona, mic, profile):

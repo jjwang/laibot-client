@@ -132,6 +132,7 @@ class PhonetisaurusG2P(object):
                            len(output))
         return output
 
+
 if __name__ == "__main__":
     import pprint
     import argparse

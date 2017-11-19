@@ -1,8 +1,9 @@
 # -*- coding: utf-8-*-
 from sys import maxint
 import random
-import sys # Laibot
-import urllib, urllib2
+import sys  # Laibot
+import urllib
+import urllib2
 import re
 
 reload(sys)
@@ -26,7 +27,8 @@ def handle(text, mic, profile):
 
     try:
         url = 'http://laibot.applinzi.com/chat?'
-        req = re.sub('[\s+\.\!\/_,$%^*(+\"\']+|[+——！，。？、~@]'.decode('utf8'), ''.decode('utf8'), text)
+        pat = '[\s+\.\!\/_,$%^*(+\"\']+|[+——！，。？、~@]'
+        req = re.sub(pat.decode('utf8'), ''.decode('utf8'), text)
         url = url + urllib.urlencode({'req': req})
         http_response = urllib2.urlopen(urllib2.Request(url))
         mic.say(http_response.read())

@@ -1,7 +1,7 @@
 #!/usr/bin/env python2
 # -*- coding: utf-8-*-
 import unittest
-from client import test_mic, diagnose, jasperpath
+from client import test_mic
 from client.modules import Unclear
 
 DEFAULT_PROFILE = {
@@ -37,4 +37,3 @@ class TestModules(unittest.TestCase):
         query = "What time is it?"
         inputs = []
         self.runConversation(query, inputs, Unclear)
-

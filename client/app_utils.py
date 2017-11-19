@@ -77,7 +77,7 @@ def emailUser(profile, SUBJECT="", BODY=""):
                   "Jasper <jasper>", password, server)
 
         return True
-    except:
+    except Exception:
         return False
 
 
@@ -91,7 +91,7 @@ def getTimezone(profile):
     """
     try:
         return timezone(profile['timezone'])
-    except:
+    except Exception:
         return None
 
 

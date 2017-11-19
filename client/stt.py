@@ -16,12 +16,13 @@ import jasperpath
 import diagnose
 import vocabcompiler
 
-import base64 # Baidu TTS
+import base64  # Baidu TTS
 from uuid import getnode as get_mac
 import sys
 
 reload(sys)
 sys.setdefaultencoding('utf8')
+
 
 class AbstractSTTEngine(object):
     """
@@ -67,6 +68,7 @@ class AbstractSTTEngine(object):
     def transcribe(self, fp):
         pass
 
+
 class BaiduSTT(AbstractSTTEngine):
     """
     百度的语音识别API.
@@ -82,7 +84,7 @@ class BaiduSTT(AbstractSTTEngine):
 
     SLUG = "baidu-stt"
 
-    def __init__(self, api_key = '', secret_key = ''):
+    def __init__(self, api_key='', secret_key=''):
         self._logger = logging.getLogger(__name__)
         self.api_key = api_key
         self.secret_key = secret_key
@@ -179,6 +181,7 @@ class BaiduSTT(AbstractSTTEngine):
     def is_available(cls):
         return diagnose.check_network_connection()
 
+
 class PocketSphinxSTT(AbstractSTTEngine):
     """
     The default Speech-to-Text implementation which relies on PocketSphinx.
@@ -203,7 +206,7 @@ class PocketSphinxSTT(AbstractSTTEngine):
         # quirky bug where first import doesn't work
         try:
             import pocketsphinx as ps
-        except:
+        except Exception:
             import pocketsphinx as ps
 
         with tempfile.NamedTemporaryFile(prefix='psdecoder_',

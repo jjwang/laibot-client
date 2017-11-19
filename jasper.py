@@ -2,7 +2,6 @@
 # -*- coding: utf-8-*-
 
 import os
-import sys
 import shutil
 import logging
 
@@ -123,6 +122,7 @@ class Jasper(object):
 
         conversation = Conversation("OKEY TOMMY", self.mic, self.config)
         conversation.handleForever()
+
 
 if __name__ == "__main__":
 

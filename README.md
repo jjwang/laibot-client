@@ -47,6 +47,8 @@
 来宝是基于Jasper的，所以参考Jasper的文档即可。[点击访问Jasper的完整安装、配置和使用指南](
 https://github.com/jjwang/laibot/wiki/Jasper%E7%9A%84%E5%AE%89%E8%A3%85%E3%80%81%E9%85%8D%E7%BD%AE%E4%B8%8E%E4%BD%BF%E7%94%A8)。
 
+来宝使用时，先说出唤醒词“OKEY TOMMY”、听到“嘀”的一声后说出语音指令；来宝检测到语音结束会播放“嘟”提示音；稍等片刻后，来宝即会回复。
+
 ## 演示视频
 
 暂缺。

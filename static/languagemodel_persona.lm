@@ -1,4 +1,4 @@
-Language model created by QuickLM on Sat Nov 11 04:08:07 EST 2017
+Language model created by QuickLM on Sun Nov 19 06:58:16 EST 2017
 Copyright (c) 1996-2010 Carnegie Mellon University and Alexander I. Rudnicky
 
 The model is in standard ARPA format, designed by Doug Paul while he was at MITRE.
@@ -7,47 +7,48 @@ The code that was used to produce this language model is available in Open Sourc
 Please visit http://www.speech.cs.cmu.edu/tools/ for more information
 
 The (fixed) discount mass is 0.5. The backoffs are computed using the ratio method.
-This model based on a corpus of 11 sentences and 13 words
+This model based on a corpus of 21 sentences and 13 words
 
 \data\
 ngram 1=13
-ngram 2=22
-ngram 3=11
+ngram 2=23
+ngram 3=13
 
 \1-grams:
--1.8195 </s> -0.3010
--1.8195 <s> -0.2218
--1.8195 BE -0.2218
--1.8195 DID -0.2218
--1.8195 FIRST -0.2218
--1.8195 IN -0.2218
--1.8195 JASPER -0.2218
--1.8195 NOW -0.2218
--0.7782 OKEY -0.2218
--1.8195 RIGHT -0.2218
--1.8195 SAY -0.2218
--0.7782 TOMMY -0.2218
--1.8195 WHAT -0.2218
+-0.8421 </s> -0.3010
+-0.8421 <s> -0.1974
+-2.1644 BE -0.2336
+-2.1644 DID -0.2336
+-2.1644 FIRST -0.2336
+-2.1644 IN -0.2336
+-2.1644 JASPER -0.2336
+-2.1644 NOW -0.2336
+-1.1230 OKEY -0.1936
+-2.1644 RIGHT -0.2336
+-2.1644 SAY -0.2336
+-1.1230 TOMMY -0.2336
+-2.1644 WHAT -0.2336
 
 \2-grams:
--1.3424 <s> BE 0.0000
--1.3424 <s> DID 0.0000
--1.3424 <s> FIRST 0.0000
--1.3424 <s> IN 0.0000
--1.3424 <s> JASPER 0.0000
--1.3424 <s> NOW 0.0000
--1.3424 <s> OKEY 0.0000
--1.3424 <s> RIGHT 0.0000
--1.3424 <s> SAY 0.0000
--1.3424 <s> TOMMY 0.0000
--1.3424 <s> WHAT 0.0000
+-1.6232 <s> BE 0.0000
+-1.6232 <s> DID 0.0000
+-1.6232 <s> FIRST 0.0000
+-1.6232 <s> IN 0.0000
+-1.6232 <s> JASPER 0.0000
+-1.6232 <s> NOW 0.0000
+-0.5819 <s> OKEY 0.0000
+-1.6232 <s> RIGHT 0.0000
+-1.6232 <s> SAY 0.0000
+-1.6232 <s> TOMMY 0.0000
+-1.6232 <s> WHAT 0.0000
 -0.3010 BE </s> -0.3010
 -0.3010 DID </s> -0.3010
 -0.3010 FIRST </s> -0.3010
 -0.3010 IN </s> -0.3010
 -0.3010 JASPER </s> -0.3010
 -0.3010 NOW </s> -0.3010
--0.3010 OKEY </s> -0.3010
+-1.3424 OKEY </s> -0.3010
+-0.3424 OKEY TOMMY 0.0000
 -0.3010 RIGHT </s> -0.3010
 -0.3010 SAY </s> -0.3010
 -0.3010 TOMMY </s> -0.3010
@@ -60,11 +61,13 @@ ngram 3=11
 -0.3010 <s> IN </s>
 -0.3010 <s> JASPER </s>
 -0.3010 <s> NOW </s>
--0.3010 <s> OKEY </s>
+-1.3424 <s> OKEY </s>
+-0.3424 <s> OKEY TOMMY
 -0.3010 <s> RIGHT </s>
 -0.3010 <s> SAY </s>
 -0.3010 <s> TOMMY </s>
 -0.3010 <s> WHAT </s>
+-0.3010 OKEY TOMMY </s>
 
 \end\
 

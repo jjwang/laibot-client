@@ -53,7 +53,7 @@ https://github.com/jjwang/laibot/wiki/Jasper%E7%9A%84%E5%AE%89%E8%A3%85%E3%80%81
 - 第一步的配置障碍就是麦克风和音箱，这步我建议禁掉内置的声卡输出，麦克风和音箱均使用上文推荐的USB外接设备。
 - 第二步是各种软件的安装，这个也是相当的繁琐。
 - 第三步需要申请百度语音的开发者账号，并填写配置文件。好吧，为方便大家使用，我尽快把我的Key分享出来，先借你用一下。
-- 第四步就是运行了。说真的，现在这个版本运行体验不大好，不说“OKEY TOMMY”的成功率、光识别的网络延迟我觉得就有点抓狂；等我共享视频后大家体验一下。我觉得Jasper-Client和Dingdang-robot延迟应该是一样的大吧，没看到他们做了啥优化。
+- 第四步就是运行了。说真的，现在这个版本运行体验不大好，不说“OKEY TOMMY”的成功率、光识别的网络延迟我觉得就有点抓狂；等我共享视频后大家体验一下。我觉得[japser-client](https://github.com/jasperproject/jasper-client)和[dingdang-robot](https://github.com/wzpan/dingdang-robot)延迟应该是一样的大吧，没看到他们做了啥优化。
 
 ## 演示视频
 

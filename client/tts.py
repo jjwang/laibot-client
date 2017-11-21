@@ -615,6 +615,10 @@ class BaiduTTS(AbstractMp3TTSEngine):
     def get_speech(self, phrase):
         if self.token == '':
             self.token = self.get_token()
+        if self.token == '':  # Try once more
+            self.token = self.get_token()
+        if self.token == '':  # Try again
+            self.token = self.get_token()
         query = {'tex': phrase,
                  'lan': 'zh',
                  'tok': self.token,

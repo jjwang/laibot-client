@@ -10,7 +10,6 @@
 - [先选定硬件](#先选定硬件)
 - [再敲定软件](#再敲定软件)
 - [启动来宝](#启动来宝)
-- [演示视频](#演示视频)
 - [项目的规矩](#项目的规矩)
 
 本宝邮箱：laibot(at)163.com
@@ -54,10 +53,6 @@ https://github.com/jjwang/laibot/wiki/Jasper%E7%9A%84%E5%AE%89%E8%A3%85%E3%80%81
 - 第二步是各种软件的安装，这个也是相当的繁琐。
 - 第三步需要申请百度语音的开发者账号，并填写配置文件。好吧，为方便大家使用，我尽快把我的Key分享出来，先借你用一下。
 - 第四步就是运行了。说真的，现在这个版本运行体验不大好，不说“OKEY TOMMY”的成功率、光识别的网络延迟我觉得就有点抓狂；等我共享视频后大家体验一下。我觉得[japser-client](https://github.com/jasperproject/jasper-client)和[dingdang-robot](https://github.com/wzpan/dingdang-robot)延迟应该是一样的大吧，没看到他们做了啥优化。
-
-## 演示视频
-
-暂缺。
 
 ## 项目的规矩
 

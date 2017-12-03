@@ -65,6 +65,6 @@ https://github.com/jjwang/laibot/wiki/Jasper%E7%9A%84%E5%AE%89%E8%A3%85%E3%80%81
 
 - 确保通过单元测试。
 
-        python -m unittest discover
+        python3 -m unittest discover
 - Python 代码需符合 PEP 8 编程规范，检查工具使用 flake8。
 

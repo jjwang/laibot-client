@@ -3,10 +3,6 @@
 import unittest
 import imp
 from client import stt, jasperpath
-import sys
-
-reload(sys)
-sys.setdefaultencoding('utf8')
 
 
 def cmuclmtk_installed():

@@ -39,9 +39,9 @@ def run():
     def clean_number(s):
         return re.sub(r'[^0-9]', '', s)
 
-    phone_number = clean_number(raw_input("\nPhone number (no country " +
-                                          "code). Any dashes or spaces will " +
-                                          "be removed for you: "))
+    phone_number = clean_number(input("\nPhone number (no country " +
+                                      "code). Any dashes or spaces will " +
+                                      "be removed for you: "))
     profile['phone_number'] = phone_number
 
     # carrier
@@ -98,7 +98,7 @@ def run():
             tz = input("Timezone: ")
 
     response = input("\nWould you prefer to have notifications sent by " +
-                         "email (E) or text message (T)? ")
+                     "email (E) or text message (T)? ")
     while not response or (response != 'E' and response != 'T'):
         response = input("Please choose email (E) or text message (T): ")
     profile['prefers_email'] = (response == 'E')
@@ -109,9 +109,9 @@ def run():
     }
 
     response = input("\nIf you would like to choose a specific STT " +
-                         "engine, please specify which.\nAvailable " +
-                         "implementations: %s. (Press Enter to default " +
-                         "to PocketSphinx): " % stt_engines.keys())
+                     "engine, please specify which.\nAvailable " +
+                     "implementations: %s. (Press Enter to default " +
+                     "to PocketSphinx): " % stt_engines.keys())
     if (response in stt_engines):
         profile["stt_engine"] = response
         api_key_name = stt_engines[response]
@@ -125,12 +125,12 @@ def run():
 
     if response == "google":
         response = input("\nChoosing Google means every sound " +
-                             "makes a request online. " +
-                             "\nWould you like to process the wake up word " +
-                             "locally with PocketSphinx? (Y) or (N)?")
+                         "makes a request online. " +
+                         "\nWould you like to process the wake up word " +
+                         "locally with PocketSphinx? (Y) or (N)?")
         while not response or (response != 'Y' and response != 'N'):
             response = input("Please choose PocketSphinx (Y) " +
-                                 "or keep just Google (N): ")
+                             "or keep just Google (N): ")
         if response == 'Y':
             profile['stt_passive_engine'] = "sphinx"
 

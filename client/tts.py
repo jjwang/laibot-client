@@ -9,7 +9,6 @@ Speaker methods:
 """
 import os
 import platform
-import re
 import tempfile
 import subprocess
 import pipes
@@ -21,16 +20,6 @@ from uuid import getnode as get_mac  # Import for Baidu TTS
 
 import argparse
 import yaml
-
-try:
-    import gtts
-except ImportError:
-    pass
-
-try:
-    import pyvona
-except ImportError:
-    pass
 
 from client import diagnose
 from client import jasperpath

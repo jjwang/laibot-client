@@ -14,7 +14,6 @@ import tempfile
 import subprocess
 import pipes
 import logging
-import wave
 import urllib
 import requests
 from abc import ABCMeta, abstractmethod
@@ -526,18 +525,6 @@ class IvonaTTS(AbstractMp3TTSEngine):
 
 
 class BaiduTTS(AbstractMp3TTSEngine):
-    """
-    使用百度语音合成技术
-    要使用本模块, 首先到 yuyin.baidu.com 注册一个开发者账号,
-    之后创建一个新应用, 然后在应用管理的"查看key"中获得 API Key 和 Secret Key
-    填入 profile.xml 中.
-        ...
-        baidu_yuyin: '...'
-            api_key: '...'
-            secret_key: '...'
-        ...
-    """
-
     SLUG = "baidu-tts"
 
     def __init__(self, api_key='', secret_key='', per=0):
@@ -578,8 +565,8 @@ class BaiduTTS(AbstractMp3TTSEngine):
     def get_token(self):
         URL = 'http://openapi.baidu.com/oauth/2.0/token'
         params = urllib.parse.urlencode({'grant_type': 'client_credentials',
-                                   'client_id': self.api_key,
-                                   'client_secret': self.secret_key})
+                                        'client_id': self.api_key,
+                                         'client_secret': self.secret_key})
         r = requests.get(URL, params=params)
         try:
             r.raise_for_status()
@@ -653,7 +640,7 @@ def get_engine_by_slug(slug=None):
         raise TypeError("Invalid slug '%s'", slug)
 
     selected_filter = filter(lambda engine: hasattr(engine, "SLUG") and
-                              engine.SLUG == slug, get_engines())
+                             engine.SLUG == slug, get_engines())
     selected_engines = [engine for engine in selected_filter]
     if len(selected_engines) == 0:
         raise ValueError("No TTS engine found for slug '%s'" % slug)
@@ -664,7 +651,7 @@ def get_engine_by_slug(slug=None):
         engine = selected_engines[0]
         if not engine.is_available():
             raise ValueError(("TTS engine '%s' is not available (due to " +
-                              "missing dependencies, etc.)") % slug)
+                             "missing dependencies, etc.)") % slug)
         return engine
 
 

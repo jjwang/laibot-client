@@ -29,7 +29,6 @@ def handle(text, mic, profile):
         mic.say(http_response.read().decode('utf-8'))
     except Exception as err:
         print(str(err))
-        print(format_tb(e.__traceback__))
 
         messages = ["我没有听清楚",
                     "请再说一遍"]

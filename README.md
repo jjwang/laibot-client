@@ -7,6 +7,7 @@
 ![PicName](http://115.28.128.30/tjbot.jpg)
 
 >   有人向你忽悠人工智能，有人带你实操人工智能；来宝属于后者。
+>
 >   [点击访问开发日志](
 https://github.com/jjwang/laibot/wiki)
 

@@ -30,10 +30,3 @@ class TestBrain(unittest.TestCase):
                 mocked_handle.side_effect = KeyError('foo')
                 my_brain.query("zzz gibberish zzz")
                 self.assertTrue(mocked_log.called)
-
-    def testSortByPriority(self):
-        """Does Brain sort modules by priority?"""
-        my_brain = TestBrain._emptyBrain()
-        priorities = filter(lambda m: hasattr(m, 'PRIORITY'), my_brain.modules)
-        target = sorted(priorities, key=lambda m: m.PRIORITY, reverse=True)
-        self.assertEqual(target, priorities)

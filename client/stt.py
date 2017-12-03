@@ -6,22 +6,17 @@ import json
 import tempfile
 import logging
 import urllib
-import urlparse
 import re
 import subprocess
 from abc import ABCMeta, abstractmethod
 import requests
 import yaml
-import jasperpath
-import diagnose
-import vocabcompiler
+import client.jasperpath as jasperpath
+import client.diagnose as diagnose
+import client.vocabcompiler as vocabcompiler
 
 import base64  # Baidu TTS
 from uuid import getnode as get_mac
-import sys
-
-reload(sys)
-sys.setdefaultencoding('utf8')
 
 
 class AbstractSTTEngine(object):
@@ -71,8 +66,8 @@ class AbstractSTTEngine(object):
 
 class BaiduSTT(AbstractSTTEngine):
     """
-    百度的语音识别API.
-    要使用本模块, 首先到 yuyin.baidu.com 注册一个开发者账号,
+    Baidu's STT engine.
+    To leverage this engile, please register a developer account at yuyin.baidu.com
     之后创建一个新应用, 然后在应用管理的"查看key"中获得 API Key 和 Secret Key
     填入 profile.xml 中.
     ...
@@ -110,7 +105,7 @@ class BaiduSTT(AbstractSTTEngine):
 
     def get_token(self):
         URL = 'http://openapi.baidu.com/oauth/2.0/token'
-        params = urllib.urlencode({'grant_type': 'client_credentials',
+        params = urllib.parse.urlencode({'grant_type': 'client_credentials',
                                    'client_id': self.api_key,
                                    'client_secret': self.secret_key})
         r = requests.get(URL, params=params)
@@ -142,7 +137,7 @@ class BaiduSTT(AbstractSTTEngine):
                 "token": self.token,
                 "len": len(audio),
                 "rate": frame_rate,
-                "speech": base_data,
+                "speech": base_data.decode(encoding="utf-8"),
                 "cuid": str(get_mac())[:32],
                 "channel": 1}
         data = json.dumps(data)
@@ -153,7 +148,7 @@ class BaiduSTT(AbstractSTTEngine):
             r.raise_for_status()
             text = ''
             if 'result' in r.json():
-                text = r.json()['result'][0].encode('utf-8')
+                text = r.json()['result'][0]
         except requests.exceptions.HTTPError:
             self._logger.critical('Request failed with response: %r',
                                   r.text,
@@ -189,6 +184,8 @@ class PocketSphinxSTT(AbstractSTTEngine):
 
     SLUG = 'sphinx'
     VOCABULARY_TYPE = vocabcompiler.PocketsphinxVocabulary
+
+    _pocketsphinx_v5 = False
 
     def __init__(self, vocabulary, hmm_dir="/usr/local/share/" +
                  "pocketsphinx/model/hmm/en_US/hub4wsj_sc_8k"):
@@ -241,9 +238,19 @@ class PocketSphinxSTT(AbstractSTTEngine):
                                  "make sure that you have set the correct " +
                                  "hmm_dir in your profile.",
                                  hmm_dir, ', '.join(missing_hmm_files))
-
-        self._decoder = ps.Decoder(hmm=hmm_dir, logfn=self._logfile,
-                                   **vocabulary.decoder_kwargs)
+        self._pocketsphinx_v5 = hasattr(ps.Decoder, 'default_config')
+        if self._pocketsphinx_v5:
+            # Pocketsphinx v5
+            config = ps.Decoder.default_config()
+            config.set_string('-hmm', hmm_dir)
+            config.set_string('-lm', vocabulary.languagemodel_file)
+            config.set_string('-dict', vocabulary.dictionary_file)
+            config.set_string('-logfn', self._logfile)
+            self._decoder = ps.Decoder(config)
+        else:
+            self._decoder = ps.Decoder(hmm=hmm_dir, logfn=self._logfile,
+                                       lm=vocabulary.languagemodel_file,
+                                       dict=vocabulary.dictionary_file)
 
     def __del__(self):
         os.remove(self._logfile)
@@ -283,13 +290,18 @@ class PocketSphinxSTT(AbstractSTTEngine):
         self._decoder.process_raw(data, False, True)
         self._decoder.end_utt()
 
-        result = self._decoder.get_hyp()
-        with open(self._logfile, 'r+') as f:
-            for line in f:
-                self._logger.debug(line.strip())
-            f.truncate()
+        if self._pocketsphinx_v5:
+            hyp = self._decoder.hyp()
+            result = hyp.hypstr if hyp is not None else ''
+        else:
+            result = self._decoder.get_hyp()[0]
+        if self._logfile is not None:
+            with open(self._logfile, 'r+') as f:
+                for line in f:
+                    self._logger.debug(line.strip())
+                f.truncate()
 
-        transcribed = [result[0]]
+        transcribed = [result] if result != '' else []
         self._logger.info('Transcribed: %r', transcribed)
         return transcribed
 
@@ -753,8 +765,9 @@ def get_engine_by_slug(slug=None):
     if not slug or type(slug) is not str:
         raise TypeError("Invalid slug '%s'", slug)
 
-    selected_engines = filter(lambda engine: hasattr(engine, "SLUG") and
+    selected_filter = filter(lambda engine: hasattr(engine, "SLUG") and
                               engine.SLUG == slug, get_engines())
+    selected_engines = [engine for engine in selected_filter]
     if len(selected_engines) == 0:
         raise ValueError("No STT engine found for slug '%s'" % slug)
     else:
@@ -776,6 +789,6 @@ def get_engines():
             subclasses.add(subclass)
             subclasses.update(get_subclasses(subclass))
         return subclasses
-    return [tts_engine for tts_engine in
+    return [stt_engine for stt_engine in
             list(get_subclasses(AbstractSTTEngine))
-            if hasattr(tts_engine, 'SLUG') and tts_engine.SLUG]
+            if hasattr(stt_engine, 'SLUG') and stt_engine.SLUG]

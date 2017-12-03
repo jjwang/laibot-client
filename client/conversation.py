@@ -1,10 +1,6 @@
 # -*- coding: utf-8-*-
 import logging
-from brain import Brain
-import sys
-
-reload(sys)
-sys.setdefaultencoding('utf8')
+from client.brain import Brain
 
 
 class Conversation(object):

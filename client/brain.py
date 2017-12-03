@@ -1,7 +1,7 @@
 # -*- coding: utf-8-*-
 import logging
 import pkgutil
-import jasperpath
+import client.jasperpath as jasperpath
 
 
 class Brain(object):

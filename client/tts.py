@@ -24,11 +24,6 @@ import argparse
 import yaml
 
 try:
-    import mad
-except ImportError:
-    pass
-
-try:
     import gtts
 except ImportError:
     pass
@@ -38,8 +33,8 @@ try:
 except ImportError:
     pass
 
-import diagnose
-import jasperpath
+from client import diagnose
+from client import jasperpath
 
 
 class AbstractTTSEngine(object):
@@ -94,18 +89,8 @@ class AbstractMp3TTSEngine(AbstractTTSEngine):
                 diagnose.check_python_import('mad'))
 
     def play_mp3(self, filename):
-        mf = mad.MadFile(filename)
         with tempfile.NamedTemporaryFile(suffix='.wav') as f:
-            wav = wave.open(f, mode='wb')
-            wav.setframerate(mf.samplerate())
-            wav.setnchannels(1 if mf.mode() == mad.MODE_SINGLE_CHANNEL else 2)
-            # 4L is the sample width of 32 bit audio
-            wav.setsampwidth(4L)
-            frame = mf.read()
-            while frame is not None:
-                wav.writeframes(frame)
-                frame = mf.read()
-            wav.close()
+            os.system('sox "%s" "%s"' % (filename, f.name))
             self.play(f.name)
 
 
@@ -592,7 +577,7 @@ class BaiduTTS(AbstractMp3TTSEngine):
 
     def get_token(self):
         URL = 'http://openapi.baidu.com/oauth/2.0/token'
-        params = urllib.urlencode({'grant_type': 'client_credentials',
+        params = urllib.parse.urlencode({'grant_type': 'client_credentials',
                                    'client_id': self.api_key,
                                    'client_secret': self.secret_key})
         r = requests.get(URL, params=params)
@@ -667,8 +652,9 @@ def get_engine_by_slug(slug=None):
     if not slug or type(slug) is not str:
         raise TypeError("Invalid slug '%s'", slug)
 
-    selected_engines = filter(lambda engine: hasattr(engine, "SLUG") and
+    selected_filter = filter(lambda engine: hasattr(engine, "SLUG") and
                               engine.SLUG == slug, get_engines())
+    selected_engines = [engine for engine in selected_filter]
     if len(selected_engines) == 0:
         raise ValueError("No TTS engine found for slug '%s'" % slug)
     else:

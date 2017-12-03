@@ -1,0 +1,19 @@
+carrier: ''
+first_name: Tommy
+gmail_password: ''
+last_name: Wang
+location: Beijing
+phone_number: ''
+prefers_email: false
+
+stt_engine: baidu-stt
+tts_engine: baidu-tts
+stt_passive_engine: sphinx
+
+pocketsphinx:
+  fst_model: '/home/pi/g014b2b.fst'
+  hmm_dir: '/usr/local/share/pocketsphinx/model/hmm/en_US/hub4wsj_sc_8k'
+
+baidu_yuyin:
+  api_key: D4C4GcF1fwqqhPaGPuXSMLC8
+  secret_key: 95ea4357542d01a490559500b85a1eff

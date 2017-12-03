@@ -16,10 +16,10 @@ import shutil
 from abc import ABCMeta, abstractmethod, abstractproperty
 import yaml
 
-import brain
-import jasperpath
+import client.brain as brain
+import client.jasperpath as jasperpath
 
-from g2p import PhonetisaurusG2P
+from client.g2p import PhonetisaurusG2P
 try:
     import cmuclmtk
 except ImportError:
@@ -51,7 +51,7 @@ class AbstractVocabulary(object):
         sorted_phrases = sorted(phrases)
         joined_phrases = '\n'.join(sorted_phrases)
         sha1 = hashlib.sha1()
-        sha1.update(joined_phrases)
+        sha1.update(joined_phrases.encode('ascii'))
         return sha1.hexdigest()
 
     def __init__(self, name='default', path='.'):

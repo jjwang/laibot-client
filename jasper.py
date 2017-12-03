@@ -15,9 +15,6 @@ from client import diagnose
 from client.conversation import Conversation
 import sys
 
-reload(sys)
-sys.setdefaultencoding('utf8')
-
 # Add jasperpath.LIB_PATH to sys.path
 sys.path.append(jasperpath.LIB_PATH)
 

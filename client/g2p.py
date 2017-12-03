@@ -7,8 +7,8 @@ import logging
 
 import yaml
 
-import diagnose
-import jasperpath
+import client.diagnose as diagnose
+import client.jasperpath as jasperpath
 
 
 class PhonetisaurusG2P(object):
@@ -57,7 +57,8 @@ class PhonetisaurusG2P(object):
 
         result = {}
         if stdoutdata is not None:
-            for word, precision, pronounc in cls.PATTERN.findall(stdoutdata):
+            for word, precision, pronounc in \
+                    cls.PATTERN.findall(stdoutdata.decode('utf-8')):
                 if word not in result:
                     result[word] = []
                 result[word].append(pronounc)
@@ -91,7 +92,7 @@ class PhonetisaurusG2P(object):
         if fst_model is None or not os.access(fst_model, os.R_OK):
             raise OSError(("FST model '%r' does not exist! Can't create " +
                            "instance.") % fst_model)
-        inst = object.__new__(cls, fst_model, *args, **kwargs)
+        inst = object.__new__(cls, *args, **kwargs)
         return inst
 
     def __init__(self, fst_model=None, nbest=None):
@@ -113,7 +114,7 @@ class PhonetisaurusG2P(object):
             # won't work if we remove it, because it seems that I can't open
             # a file descriptor a second time.
             for word in words:
-                f.write("%s\n" % word)
+                f.write(('%s\n' % word).encode('utf-8'))
             tmp_fname = f.name
         output = self.execute(self.fst_model, tmp_fname, is_file=True,
                               nbest=self.nbest)

@@ -1,17 +1,12 @@
 # -*- coding: utf-8-*-
-from sys import maxint
 import random
 import sys  # Laibot
 import urllib
-import urllib2
 import re
-
-reload(sys)
-sys.setdefaultencoding('utf8')
 
 WORDS = []
 
-PRIORITY = -(maxint + 1)
+PRIORITY = -(sys.maxsize + 1)
 
 
 def handle(text, mic, profile):
@@ -28,12 +23,13 @@ def handle(text, mic, profile):
     try:
         url = 'http://laibot.applinzi.com/chat?'
         pat = '[\s+\.\!\/_,$%^*(+\"\']+|[+——！，。？、~@]'
-        req = re.sub(pat.decode('utf8'), ''.decode('utf8'), text)
-        url = url + urllib.urlencode({'req': req})
-        http_response = urllib2.urlopen(urllib2.Request(url))
-        mic.say(http_response.read())
+        req = re.sub(pat, '', text)
+        url = url + urllib.parse.urlencode({'req': req})
+        http_response = urllib.request.urlopen(url)
+        mic.say(http_response.read().decode('utf-8'))
     except Exception as err:
         print(str(err))
+        print(format_tb(e.__traceback__))
 
         messages = ["我没有听清楚",
                     "请再说一遍"]

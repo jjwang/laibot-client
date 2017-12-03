@@ -24,7 +24,7 @@ class Mic:
         if not LISTEN:
             return self.prev
 
-        input = raw_input("YOU: ")
+        input = input("YOU: ")
         self.prev = input
         return input
 

@@ -1,2 +1,2 @@
 #!/bin/bash
-python jasper.py --debug
+python3 jasper.py --debug

@@ -1,7 +1,7 @@
 来宝：开源人工智能
 =================
 
-[![Build Status](https://travis-ci.org/jjwang/laibot.svg?branch=master)](https://travis-ci.org/jjwang/laibot) [![Python3](https://img.shields.io/badge/python-3-blue.svg
+[![Build Status](https://travis-ci.org/jjwang/laibot.svg?branch=master)](https://travis-ci.org/jjwang/laibot-body) [![Python3](https://img.shields.io/badge/python-3-blue.svg
 )](https://www.python.org)
 
 ![PicName](http://115.28.128.30/tjbot.jpg)

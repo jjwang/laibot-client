@@ -5,9 +5,36 @@
 import logging
 import tempfile
 import wave
-import audioop
 import pyaudio
 import client.jasperpath as jasperpath
+
+import webrtcvad
+import collections
+import sys
+import signal
+from array import array
+import time
+
+RATE = 16000
+
+gotOneSentence = False
+leaveRecord = False
+
+
+def handle_int(sig, chunk):
+    global leaveRecord, gotOneSentence
+    leaveRecord = True
+    gotOneSentence = True
+
+
+def normalize(snd_data):
+    "Average the volume out"
+    MAXIMUM = 32767  # 16384
+    times = float(MAXIMUM) / max(abs(i) for i in snd_data)
+    r = array('h')
+    for i in snd_data:
+        r.append(int(i * times))
+    return r
 
 
 class Mic:
@@ -38,148 +65,14 @@ class Mic:
     def __del__(self):
         self._audio.terminate()
 
-    def getScore(self, data):
-        rms = audioop.rms(data, 2)
-        score = rms / 3
-        return score
-
-    def fetchThreshold(self):
-
-        # TODO: Consolidate variables from the next three functions
-        THRESHOLD_MULTIPLIER = 1.8
-        RATE = 16000
-        CHUNK = 1024
-
-        # number of seconds to allow to establish threshold
-        THRESHOLD_TIME = 1
-
-        # prepare recording stream
-        stream = self._audio.open(format=pyaudio.paInt16,
-                                  channels=1,
-                                  rate=RATE,
-                                  input=True,
-                                  frames_per_buffer=CHUNK)
-
-        # stores the audio data
-        frames = []
-
-        # stores the lastN score values
-        lastN = [i for i in range(20)]
-
-        # calculate the long run average, and thereby the proper threshold
-        for i in range(0, int(RATE / CHUNK * THRESHOLD_TIME)):
-
-            data = stream.read(CHUNK)
-            frames.append(data)
-
-            # save this data point as a score
-            lastN.pop(0)
-            lastN.append(self.getScore(data))
-            average = sum(lastN) / len(lastN)
-
-        stream.stop_stream()
-        stream.close()
-
-        # this will be the benchmark to cause a disturbance over!
-        THRESHOLD = average * THRESHOLD_MULTIPLIER
-
-        return THRESHOLD
-
     def passiveListen(self, PERSONA):
         """
         Listens for PERSONA in everyday sound. Times out after LISTEN_TIME, so
         needs to be restarted.
         """
-
-        THRESHOLD_MULTIPLIER = 1.8
-        RATE = 16000
-        CHUNK = 1024
-
-        # number of seconds to allow to establish threshold
-        THRESHOLD_TIME = 1
-
-        # number of seconds to listen before forcing restart
-        LISTEN_TIME = 10
-
-        # prepare recording stream
-        stream = self._audio.open(format=pyaudio.paInt16,
-                                  channels=1,
-                                  rate=RATE,
-                                  input=True,
-                                  frames_per_buffer=CHUNK)
-
-        # stores the audio data
-        frames = []
-
-        # stores the lastN score values
-        lastN = [i for i in range(30)]
-
-        # calculate the long run average, and thereby the proper threshold
-        for i in range(0, int(RATE / CHUNK * THRESHOLD_TIME)):
-
-            data = stream.read(CHUNK)
-            frames.append(data)
-
-            # save this data point as a score
-            lastN.pop(0)
-            lastN.append(self.getScore(data))
-            average = sum(lastN) / len(lastN)
-
-        # this will be the benchmark to cause a disturbance over!
-        THRESHOLD = average * THRESHOLD_MULTIPLIER
-
-        # save some memory for sound data
-        frames = []
-
-        # flag raised when sound disturbance detected
-        didDetect = False
-
-        # start passively listening for disturbance above threshold
-        for i in range(0, int(RATE / CHUNK * LISTEN_TIME)):
-
-            data = stream.read(CHUNK)
-            frames.append(data)
-            score = self.getScore(data)
-
-            if score > THRESHOLD:
-                didDetect = True
-                break
-
-        # no use continuing if no flag raised
-        if not didDetect:
-            print("No disturbance detected")
-            stream.stop_stream()
-            stream.close()
-            return (None, None)
-
-        # cutoff any recording before this disturbance was detected
-        frames = frames[-20:]
-
-        # otherwise, let's keep recording for few seconds and save the file
-        DELAY_MULTIPLIER = 1
-        for i in range(0, int(RATE / CHUNK * DELAY_MULTIPLIER)):
-
-            data = stream.read(CHUNK)
-            frames.append(data)
-
-        # save the audio data
-        stream.stop_stream()
-        stream.close()
-
-        with tempfile.NamedTemporaryFile(mode='w+b') as f:
-            wav_fp = wave.open(f, 'wb')
-            wav_fp.setnchannels(1)
-            wav_fp.setsampwidth(pyaudio.get_sample_size(pyaudio.paInt16))
-            wav_fp.setframerate(RATE)
-            for frame in frames:
-                wav_fp.writeframes(frame)
-            wav_fp.close()
-            f.seek(0)
-            # check if PERSONA was said
-            transcribed = self.passive_stt_engine.transcribe(f)
-
+        transcribed = self.listenVoice(False)
         if any(PERSONA in phrase for phrase in transcribed):
-            return (THRESHOLD, PERSONA)
+            return (True, PERSONA)
 
         return (False, transcribed)
 
@@ -190,71 +83,129 @@ class Mic:
             Returns the first matching string or None
         """
 
-        options = self.activeListenToAllOptions(THRESHOLD, LISTEN, MUSIC)
+        options = self.listenVoice(True)
         if options:
             return options[0]
 
-    def activeListenToAllOptions(self, THRESHOLD=None, LISTEN=True,
-                                 MUSIC=False):
-        """
-            Records until a second of silence or times out after 12 seconds
+    def listenVoice(self, ACTIVE=True):
+        FORMAT = pyaudio.paInt16
+        CHANNELS = 1
+        CHUNK_DURATION_MS = 30       # supports 10, 20 and 30 (ms)
+        PADDING_DURATION_MS = 1500   # 1 sec jugement
+        CHUNK_SIZE = int(RATE * CHUNK_DURATION_MS / 1000)   # chunk to read
+        NUM_PADDING_CHUNKS = int(PADDING_DURATION_MS / CHUNK_DURATION_MS)
+        NUM_WINDOW_CHUNKS = int(400 / CHUNK_DURATION_MS)    # 400ms/30ms
+        NUM_WINDOW_CHUNKS_END = NUM_WINDOW_CHUNKS * 2
 
-            Returns a list of the matching options or None
-        """
+        global leaveRecord, gotOneSentence
 
-        RATE = 16000
-        CHUNK = 1024
-        LISTEN_TIME = 12
+        vad = webrtcvad.Vad(1)
 
-        # check if no threshold provided
-        if THRESHOLD is None:
-            THRESHOLD = self.fetchThreshold()
-
-        self.speaker.play(jasperpath.data('audio', 'beep_hi.wav'))
+        if ACTIVE:
+            self.speaker.play(jasperpath.data('audio', 'beep_hi.wav'))
 
         # prepare recording stream
-        stream = self._audio.open(format=pyaudio.paInt16,
-                                  channels=1,
+        stream = self._audio.open(format=FORMAT,
+                                  channels=CHANNELS,
                                   rate=RATE,
                                   input=True,
-                                  frames_per_buffer=CHUNK)
+                                  start=False,
+                                  frames_per_buffer=CHUNK_SIZE)
+        signal.signal(signal.SIGINT, handle_int)
 
-        frames = []
-        # increasing the range # results in longer pause after command
-        # generation
-        lastN = [THRESHOLD * 1.2 for i in range(30)]
+        while not leaveRecord:
+            ring_buffer = collections.deque(maxlen=NUM_PADDING_CHUNKS)
+            triggered = False
+            ring_buffer_flags = [0] * NUM_WINDOW_CHUNKS
+            ring_buffer_index = 0
 
-        for i in range(0, int(RATE / CHUNK * LISTEN_TIME)):
+            ring_buffer_flags_end = [0] * NUM_WINDOW_CHUNKS_END
+            ring_buffer_index_end = 0
+            raw_data = array('h')
+            index = 0
+            start_point = 0
+            StartTime = time.time()
+            print("* recording: ")
+            stream.start_stream()
 
-            data = stream.read(CHUNK)
-            frames.append(data)
-            score = self.getScore(data)
+            while not gotOneSentence and not leaveRecord:
+                chunk = stream.read(CHUNK_SIZE)
+                # add WangS
+                raw_data.extend(array('h', chunk))
+                index += CHUNK_SIZE
+                TimeUse = time.time() - StartTime
 
-            lastN.pop(0)
-            lastN.append(score)
+                active = vad.is_speech(chunk, RATE)
 
-            average = sum(lastN) / float(len(lastN))
+                if ACTIVE:
+                    sys.stdout.write('I' if active else '_')
+                ring_buffer_flags[ring_buffer_index] = 1 if active else 0
+                ring_buffer_index += 1
+                ring_buffer_index %= NUM_WINDOW_CHUNKS
 
-            # TODO: 0.8 should not be a MAGIC NUMBER!
-            if average < THRESHOLD * 0.4:
-                break
+                ring_buffer_flags_end[ring_buffer_index_end] = \
+                    1 if active else 0
+                ring_buffer_index_end += 1
+                ring_buffer_index_end %= NUM_WINDOW_CHUNKS_END
 
-        self.speaker.play(jasperpath.data('audio', 'beep_lo.wav'))
+                # start point detection
+                if not triggered:
+                    ring_buffer.append(chunk)
+                    num_voiced = sum(ring_buffer_flags)
+                    if num_voiced > 0.8 * NUM_WINDOW_CHUNKS:
+                        sys.stdout.write('[OPEN]')
+                        triggered = True
+                        start_point = index - CHUNK_SIZE * 20  # start point
+                        # voiced_frames.extend(ring_buffer)
+                        ring_buffer.clear()
+                # end point detection
+                else:
+                    # voiced_frames.append(chunk)
+                    ring_buffer.append(chunk)
+                    num_unvoiced = NUM_WINDOW_CHUNKS_END \
+                        - sum(ring_buffer_flags_end)
+                    if num_unvoiced > 0.90 * NUM_WINDOW_CHUNKS_END \
+                            or TimeUse > 10:
+                        sys.stdout.write('[CLOSE]')
+                        triggered = False
+                        gotOneSentence = True
 
-        # save the audio data
-        stream.stop_stream()
+                sys.stdout.flush()
+
+            sys.stdout.write('\n')
+
+            print("* done recording")
+            gotOneSentence = False
+            if ACTIVE:
+                self.speaker.play(jasperpath.data('audio', 'beep_lo.wav'))
+
+            # write to file
+            raw_data.reverse()
+            for index in range(start_point):
+                raw_data.pop()
+            raw_data.reverse()
+            raw_data = normalize(raw_data)
+
+            stream.stop_stream()
+            stream.close()
+
+            # save the audio data
+            with tempfile.SpooledTemporaryFile(mode='w+b') as f:
+                wav_fp = wave.open(f, 'wb')
+                wav_fp.setnchannels(1)
+                wav_fp.setsampwidth(pyaudio.get_sample_size(pyaudio.paInt16))
+                wav_fp.setframerate(RATE)
+                wav_fp.writeframes(raw_data)
+                wav_fp.close()
+                f.seek(0)
+                if ACTIVE:
+                    return self.active_stt_engine.transcribe(f)
+                else:
+                    return self.passive_stt_engine.transcribe(f)
+            leaveRecord = True
+
+        # exit
         stream.close()
-
-        with tempfile.SpooledTemporaryFile(mode='w+b') as f:
-            wav_fp = wave.open(f, 'wb')
-            wav_fp.setnchannels(1)
-            wav_fp.setsampwidth(pyaudio.get_sample_size(pyaudio.paInt16))
-            wav_fp.setframerate(RATE)
-            for frame in frames:
-                wav_fp.writeframes(frame)
-            wav_fp.close()
-            f.seek(0)
-            return self.active_stt_engine.transcribe(f)
 
     def say(self, phrase,
             OPTIONS=" -vdefault+m3 -p 40 -s 160 --stdout > say.wav"):

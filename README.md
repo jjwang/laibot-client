@@ -8,10 +8,8 @@
 
 >    有人向你忽悠人工智能，有人带你实操人工智能；来宝属于后者。
 >
->    [点击访问开发日志](
-https://github.com/jjwang/laibot/wiki)
->   
->    [点击访问演示视频](http://v.youku.com/v_show/id_XMzIzNDUyNjQ5Mg==.html?spm=a2h3j.8428770.3416059.1)
+>    [开发日志](
+https://github.com/jjwang/laibot/wiki) [演示视频](http://v.youku.com/v_show/id_XMzIzNDUyNjQ5Mg==.html?spm=a2h3j.8428770.3416059.1)
 
 ## 目录
 

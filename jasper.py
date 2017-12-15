@@ -115,6 +115,8 @@ class Jasper(object):
                           % self.config["first_name"])
         else:
             salutation = "很高兴为你服务"
+        if os.path.exists(jasperpath.tjbot('shakehand.servo.js')):
+            os.system("node " + jasperpath.tjbot('shakehand.servo.js'))
         self.mic.say(salutation)
 
         conversation = Conversation("OKEY TOMMY", self.mic, self.config)

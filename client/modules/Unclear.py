@@ -3,6 +3,8 @@ import random
 import sys  # Laibot
 import urllib
 import re
+import os
+import client.jasperpath as jasperpath
 
 WORDS = []
 
@@ -26,7 +28,13 @@ def handle(text, mic, profile):
         req = re.sub(pat, '', text)
         url = url + urllib.parse.urlencode({'req': req})
         http_response = urllib.request.urlopen(url)
-        mic.say(http_response.read().decode('utf-8'))
+        ans = http_response.read().decode('utf-8')
+        if ans.find('//shakehand') >= 0:
+            ans = ans.replace('//shakehand', '')
+            if os.path.exists(jasperpath.tjbot('shakehand.servo.js')):
+                os.system("node " + jasperpath.tjbot('shakehand.servo.js'))
+                os.system("node " + jasperpath.tjbot('shakehand.servo.js'))
+        mic.say(ans)
     except Exception as err:
         print(str(err))
 

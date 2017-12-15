@@ -7,9 +7,11 @@ APP_PATH = os.path.normpath(os.path.join(
 
 DATA_PATH = os.path.join(APP_PATH, "static")
 LIB_PATH = os.path.join(APP_PATH, "client")
-PLUGIN_PATH = os.path.join(LIB_PATH, "modules")
+TOOLS_PATH = os.path.join(APP_PATH, "tools")
 
+PLUGIN_PATH = os.path.join(LIB_PATH, "modules")
 CONFIG_PATH = os.path.join(APP_PATH, 'conf')
+TJBOT_PATH = os.path.join(APP_PATH, '../tjbot/bootstrap/tests/')
 
 
 def config(*fname):
@@ -18,3 +20,7 @@ def config(*fname):
 
 def data(*fname):
     return os.path.join(DATA_PATH, *fname)
+
+
+def tjbot(*fname):
+    return os.path.join(TJBOT_PATH, *fname)

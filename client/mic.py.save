@@ -127,13 +127,12 @@ class Mic:
             start_point = 0
             StartTime = time.time()
             print("* recording: ")
-            if os.path.exists(jasperpath.tjbot('shine.led.js')):
-                os.system("node " + jasperpath.tjbot('shine.led.js') +
-                          (" blue" if ACTIVE else " white"))
+            os.system("node " + jasperpath.tjbot('shine.led.js') + 
+                      (" if ACTIVE else " blue"))
             stream.start_stream()
 
             while not gotOneSentence and not leaveRecord:
-                chunk = stream.read(CHUNK_SIZE, exception_on_overflow=False)
+                chunk = stream.read(CHUNK_SIZE)
                 # add WangS
                 raw_data.extend(array('h', chunk))
                 index += CHUNK_SIZE
@@ -141,7 +140,8 @@ class Mic:
 
                 active = vad.is_speech(chunk, RATE)
 
-                sys.stdout.write('I' if active else '_')
+                if ACTIVE:
+                    sys.stdout.write('I' if active else '_')
                 ring_buffer_flags[ring_buffer_index] = 1 if active else 0
                 ring_buffer_index += 1
                 ring_buffer_index %= NUM_WINDOW_CHUNKS
@@ -178,8 +178,7 @@ class Mic:
             sys.stdout.write('\n')
 
             print("* done recording")
-            if os.path.exists(jasperpath.tjbot('shine.led.js')):
-                os.system("node " + jasperpath.tjbot('shine.led.js') + " off")
+            os.system("node " + jasperpath.tjbot('shine.led.js') + " off")
             gotOneSentence = False
             if ACTIVE:
                 self.speaker.play(jasperpath.data('audio', 'beep_lo.wav'))

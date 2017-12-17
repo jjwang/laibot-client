@@ -6,9 +6,9 @@
 
 ![PicName](http://115.28.128.30/tjbot.jpg)
 
->    如果你喜欢此项目，请打一颗星。
->
->    [开发日志](
+如果你喜欢此项目，请打一颗星。
+
+[开发日志](
 https://github.com/jjwang/laibot/wiki) [演示视频](http://v.youku.com/v_show/id_XMzIzNDUyNjQ5Mg==.html?spm=a2h3j.8428770.3416059.1)
 
 ## 目录

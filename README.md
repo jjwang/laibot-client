@@ -1,4 +1,4 @@
-来宝：开源人工智能
+来宝：基于树莓派的语音对话机器人
 =================
 
 [![Build Status](https://travis-ci.org/jjwang/laibot-body.svg?branch=master)](https://travis-ci.org/jjwang/laibot-body) [![Python3](https://img.shields.io/badge/python-3-blue.svg

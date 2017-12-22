@@ -1,7 +1,7 @@
 来宝：基于树莓派的语音对话机器人
 =================
 
-[![Build Status](https://travis-ci.org/jjwang/laibot-body.svg?branch=master)](https://travis-ci.org/jjwang/laibot-body) [![Python3](https://img.shields.io/badge/python-3-blue.svg
+[![Build Status](https://travis-ci.org/jjwang/laibot-client.svg?branch=master)](https://travis-ci.org/jjwang/laibot-client) [![Python3](https://img.shields.io/badge/python-3-blue.svg
 )](https://www.python.org)
 
 ![PicName](http://115.28.128.30/tjbot.jpg)

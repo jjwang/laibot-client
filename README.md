@@ -8,8 +8,9 @@
 
 如果你喜欢此项目，请给我打星。
 
-[开发日志](
-https://github.com/jjwang/laibot/wiki) [演示视频](http://v.youku.com/v_show/id_XMzIzNDUyNjQ5Mg==.html?spm=a2h3j.8428770.3416059.1) [性能分析(不咋好用，看看为啥？怎么改进？)](https://github.com/jjwang/laibot-client/wiki)
+## 准备材料
+- [演示视频](http://v.youku.com/v_show/id_XMzIzNDUyNjQ5Mg==.html?spm=a2h3j.8428770.3416059.1)
+- [性能分析(不咋好用，看看为啥？怎么改进？)](https://github.com/jjwang/laibot-client/wiki)
 
 ## 目录
 

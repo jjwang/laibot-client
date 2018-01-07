@@ -98,6 +98,8 @@ class Mic:
 
         global leaveRecord, gotOneSentence
         if leaveRecord:
+            if os.path.exists(jasperpath.tjbot('shine.led.js')):
+                os.system("node " + jasperpath.tjbot('shine.led.js') + " off")
             return None
 
         # prepare recording stream
@@ -224,6 +226,10 @@ class Mic:
             # result processing for passive and active listening respectively
             print("* done recording")
             if leaveRecord:
+                if os.path.exists(jasperpath.tjbot('shine.led.js')):
+                    os.system("node " +
+                              jasperpath.tjbot('shine.led.js') +
+                              " off")
                 break
             if ACTIVE:
                 if os.path.exists(jasperpath.tjbot('shine.led.js')):
@@ -272,13 +278,6 @@ class Mic:
             if ACTIVE:
                 stream.close()
                 return None
-
-            if leaveRecord:
-                if os.path.exists(jasperpath.tjbot('shine.led.js')):
-                    os.system("node " +
-                              jasperpath.tjbot('shine.led.js') +
-                              " off")
-                sys.exit()
 
     def say(self, phrase,
             OPTIONS=" -vdefault+m3 -p 40 -s 160 --stdout > say.wav"):

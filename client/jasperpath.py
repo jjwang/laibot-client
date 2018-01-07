@@ -24,3 +24,7 @@ def data(*fname):
 
 def tjbot(*fname):
     return os.path.join(TJBOT_PATH, *fname)
+
+
+def hotword():
+    return 'OKEY TOMMY'

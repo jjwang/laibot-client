@@ -119,7 +119,8 @@ class Jasper(object):
             os.system("node " + jasperpath.tjbot('shakehand.servo.js'))
         self.mic.say(salutation)
 
-        conversation = Conversation("OKEY TOMMY", self.mic, self.config)
+        conversation = Conversation(jasperpath.hotword(),
+                                    self.mic, self.config)
         conversation.handleForever()
 
 

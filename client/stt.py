@@ -61,6 +61,18 @@ class AbstractSTTEngine(object):
     def transcribe(self, fp):
         pass
 
+    @abstractmethod
+    def utt_start(self):
+        pass
+
+    @abstractmethod
+    def utt_end(self):
+        pass
+
+    @abstractmethod
+    def utt_transcribe(self, data):
+        pass
+
 
 class BaiduSTT(AbstractSTTEngine):
     """
@@ -174,6 +186,15 @@ class BaiduSTT(AbstractSTTEngine):
     def is_available(cls):
         return diagnose.check_network_connection()
 
+    def utt_start(self):
+        return True
+
+    def utt_end(self):
+        return True
+
+    def utt_transcribe(self, data):
+        return ''
+
 
 class PocketSphinxSTT(AbstractSTTEngine):
     """
@@ -184,6 +205,7 @@ class PocketSphinxSTT(AbstractSTTEngine):
     VOCABULARY_TYPE = vocabcompiler.PocketsphinxVocabulary
 
     _pocketsphinx_v5 = False
+    _previous_decoding_output = ''
 
     def __init__(self, vocabulary, hmm_dir="/usr/local/share/" +
                  "pocketsphinx/model/hmm/en_US/hub4wsj_sc_8k"):
@@ -306,6 +328,27 @@ class PocketSphinxSTT(AbstractSTTEngine):
     @classmethod
     def is_available(cls):
         return diagnose.check_python_import('pocketsphinx')
+
+    def utt_start(self):
+        self._decoder.start_utt()
+        return True
+
+    def utt_end(self):
+        self._decoder.end_utt()
+        return True
+
+    def utt_transcribe(self, data):
+        self._decoder.process_raw(data, False, False)
+        if self._pocketsphinx_v5:
+            hyp = self._decoder.hyp()
+            result = hyp.hypstr if hyp is not None else ''
+        else:
+            result = self._decoder.get_hyp()[0]
+        transcribed = [result] if result != '' else []
+        if self._previous_decoding_output != transcribed:
+            self._logger.info('Partial: %r', transcribed)
+        self._previous_decoding_output = transcribed
+        return transcribed
 
 
 def get_engine_by_slug(slug=None):

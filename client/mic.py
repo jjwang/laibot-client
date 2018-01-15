@@ -12,7 +12,6 @@ import sys
 
 import webrtcvad
 import collections
-import sys
 import signal
 from array import array
 import time

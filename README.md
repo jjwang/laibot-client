@@ -15,7 +15,7 @@
 - [TJBot外壳淘宝购买链接](https://item.taobao.com/item.htm?spm=a230r.1.14.24.602d176cLuq4DL&id=545308333122&ns=1&abbucket=13#detail)
 - 来宝使用的开源语义解析（laibot-nlu）可关注并发消息给如下公众号体验：
 
-![来宝人工智能](qrcode_for_laibot_bj_258.jpg)
+![来宝人工智能](http://115.28.128.30/qrcode_for_laibot_bj_258.jpg)
 
 本宝邮箱：laibot(at)163.com
 

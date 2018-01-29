@@ -13,7 +13,7 @@
 - [语音唤醒性能优化 -- 这绝对将是性能最好的开源语音唤醒方案！](https://github.com/jjwang/laibot-client/wiki/%E8%AF%AD%E9%9F%B3%E5%94%A4%E9%86%92%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96)
 - [项目Wiki](https://github.com/jjwang/laibot-client/wiki)
 - [TJBot外壳淘宝购买链接](https://item.taobao.com/item.htm?spm=a230r.1.14.24.602d176cLuq4DL&id=545308333122&ns=1&abbucket=13#detail)
-- 来宝使用的开源语义解析（![laibot-nlu](https://github.com/jjwang/laibot-nlu)）可关注并发消息给如下公众号体验：
+- 来宝使用的开源语义解析（[laibot-nlu](https://github.com/jjwang/laibot-nlu)）可关注并发消息给如下公众号体验：
 
 ![来宝人工智能](http://115.28.128.30/qrcode_for_laibot_bj_258.jpg)
 

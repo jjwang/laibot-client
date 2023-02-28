@@ -4,8 +4,6 @@
 [![Build Status](https://travis-ci.org/jjwang/laibot-client.svg?branch=master)](https://travis-ci.org/jjwang/laibot-client) [![Python3](https://img.shields.io/badge/python-3-blue.svg
 )](https://www.python.org)
 
-![TJBot](http://115.28.128.30/tjbot.jpg)
-
 如果你喜欢此项目，请给我打星。
 
 ## 1. 必读
